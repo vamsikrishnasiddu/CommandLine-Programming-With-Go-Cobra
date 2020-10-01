@@ -25,12 +25,12 @@ import (
 // subCmd represents the sub command
 var subCmd = &cobra.Command{
 	Use:   "sub",
-	Short: "It's for subtraction of arguments",
+	Short: "sub num1 num2 .... num n  ---> Subtracts the num1,num2,...num n",
 	Long: `
-	  This will calculate the subtraction of more than two arguments .
-	  This is useful for both the Integer and floatingPoint Values.
-	  Use -f or --float after the command to calculate floatingpoint
-	  numbers subtraction.
+		IntegersCase:
+				sub 1 2 .. n  substract the numbers and displays the result.
+		FloatCase:
+				sub -f 1.2 3.4 5.5 ...n substract the nmbers and displays the result.
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		floatval, err := cmd.Flags().GetBool("float")
@@ -67,20 +67,21 @@ func subInts(args []string) {
 	var diff int
 	diff, err := strconv.Atoi(args[0])
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("Use the -f flag while substracting the floating point numbers.")
+		return
 	}
 
 	for i := 1; i < len(args); i++ {
 		ival, err := strconv.Atoi(args[i])
 
 		if err != nil {
-			fmt.Println(err)
-		} else {
-			diff = diff - ival
+			fmt.Println("Use the -f flag while substracting the floating point numbers.")
+			return
 		}
+		diff = diff - ival
 
 	}
-	fmt.Println(diff)
+	fmt.Printf("the difference of %s numbers is %d .", args, diff)
 
 }
 
@@ -101,6 +102,6 @@ func subFloats(args []string) {
 		}
 
 	}
-	fmt.Println(diff)
+	fmt.Printf("the difference of %s numbers is %f .", args, diff)
 
 }

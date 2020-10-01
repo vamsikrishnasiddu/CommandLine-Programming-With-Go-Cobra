@@ -24,12 +24,13 @@ import (
 
 // mulCmd represents the mul command
 var mulCmd = &cobra.Command{
-	Use:   "mul",
-	Short: "It's for the multiplication of arguments.",
+	Use: "mul",
 	Long: `
-	the command is useful in multiplication of arguments 
-	it will calculate the multiplication for both the 
-	Integer and floating point values`,
+		IntegersCase:
+				mul 1 2 .. n  multiplies the numbers and displays the result.
+		FloatCase:
+				mul -f 1.2 3.4 5.5 ...n multiplies the numbers and displays the result.
+				`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fval, _ := cmd.Flags().GetBool("float")
 		if fval {
@@ -63,13 +64,13 @@ func mulInts(args []string) {
 		ival, err := strconv.Atoi(val)
 
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("use the flag -f while multiplying the floating point numbers.")
 		} else {
 			result = result * ival
 		}
 	}
 
-	fmt.Println(result)
+	fmt.Printf("the multiplication of %s is %d.", args, result)
 }
 
 func mulFloats(args []string) {
@@ -84,5 +85,5 @@ func mulFloats(args []string) {
 		}
 	}
 
-	fmt.Println(result)
+	fmt.Printf("the multiplication of %s is %f.", args, result)
 }

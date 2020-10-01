@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/spf13/cobra"
@@ -25,10 +26,12 @@ import (
 // divCmd represents the div command
 var divCmd = &cobra.Command{
 	Use:   "div",
-	Short: "For division of Arguments",
+	Short: "divide num1 num2 -- divides the num1 and num2",
 	Long: `
-	  The command is used for division of arguments.It will divide
-	  the first two arguments only.Though you provide more than two arguments
+	IntegersCase:
+	         div num1 num2   divides the numbers and displays the result.
+    FloatCase:
+	         div -f num1 num2 divides the nmbers and displays the result.
 	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		//fmt.Println(args)
@@ -59,23 +62,40 @@ func init() {
 }
 
 func divInts(args []string) {
-	a, _ := strconv.Atoi(args[0])
-	b, _ := strconv.Atoi(args[1])
+	if len(args) != 2 {
+		fmt.Println("Maximum two arguments are needed.")
+		os.Exit(1)
+	}
+	a, err1 := strconv.Atoi(args[0])
+
+	if err1 != nil {
+		fmt.Println("Use -f for floating numbers")
+		return
+	}
+	b, err2 := strconv.Atoi(args[1])
+	if err2 != nil {
+		fmt.Println("Use -f for floating numbers")
+		return
+	}
 
 	if b == 0 {
 		fmt.Println("Cannot divide by 0")
 	} else {
-		fmt.Println(a / b)
+		fmt.Printf("the division of %s is %d.", args, a/b)
 	}
 }
 
 func divFloats(args []string) {
+	if len(args) != 2 {
+		fmt.Println("Maximum two arguments are needed.")
+		os.Exit(1)
+	}
 	a, _ := strconv.ParseFloat(args[0], 64)
 	b, _ := strconv.ParseFloat(args[1], 64)
 
 	if b == 0 {
 		fmt.Println("Cannot divide by 0")
 	} else {
-		fmt.Println(a / b)
+		fmt.Printf("the division of %s is %f.", args, a/b)
 	}
 }

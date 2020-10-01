@@ -25,10 +25,13 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "Addition of arguments",
+	Short: "add num1 num2 .... num n  ---> Adds the num1,num2,...num n",
 	Long: `
-	This is for addition of arguments if you use integer no flags 
-	are required but if you use float use the flag -f or --float.`,
+		IntegersCase:
+				add 1 2 .. n  adds the numbers and displays the result.
+		FloatCase:
+				add -f 1.2 3.4 5.5 ...n adds the nmbers and displays the result.
+				`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fstatus, _ := cmd.Flags().GetBool("float")
 		if fstatus {
@@ -63,11 +66,12 @@ func addInts(args []string) {
 		itemp, err := strconv.Atoi(ival)
 
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Please use -f flag while using floating point numbers.")
+			return
 		}
 		sum = sum + itemp
 	}
-	fmt.Println(sum)
+	fmt.Printf("The addition of numbers is %s is %d", args, sum)
 }
 
 func addFloats(args []string) {
@@ -80,5 +84,5 @@ func addFloats(args []string) {
 		}
 		sum = sum + itemp
 	}
-	fmt.Println(sum)
+	fmt.Printf("The addition of numbers is %s is %f", args, sum)
 }

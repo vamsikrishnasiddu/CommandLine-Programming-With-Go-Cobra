@@ -25,13 +25,11 @@ import (
 // moduloCmd represents the modulo command
 var moduloCmd = &cobra.Command{
 	Use:   "modulo",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "modulo num1 num2 gives the remainder of num1 and num2",
+	Long: `
+		div 1 2  gives the remainder of 1%2 which is equal to 1.
+		remainder is calculated using "%" operator.
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		moduloNums(args)
 	},
@@ -53,7 +51,11 @@ func init() {
 
 func moduloNums(args []string) {
 	a, _ := strconv.Atoi(args[0])
-	b, _ := strconv.Atoi(args[1])
+	b, err := strconv.Atoi(args[1])
+	if err != nil {
+		fmt.Println("modulo is not defined for floating point numbers.")
+		return
+	}
 
-	fmt.Println(a % b)
+	fmt.Printf("the modulo of %s is %d.", args, a%b)
 }
